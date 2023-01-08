@@ -9,6 +9,7 @@ from mongoengine import disconnect
 
 from main import create_app
 from common.config.settings import conf
+from common.config.tortoise import TORTOISE_ORM
 
 
 @pytest.fixture(scope='module')
@@ -34,9 +35,7 @@ def client() -> Generator:
         raise Exception("mongo db must start with 'test'")
 
     initializer(
-        modules=[
-            'common.db.rdb.schema'
-        ],
+        modules=TORTOISE_ORM['apps']['models']['models'],
         db_url=db_url,
     )
 
