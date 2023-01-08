@@ -13,6 +13,7 @@ mongoengine = "*"
 anyio = {extras = ["trio"], version = "*"}
 pytest = "*"
 mongomock = "*"
+gunicorn = "*"
 
 [dev-packages]
 python-lsp-server = {extras = ["all"], version = "*"}

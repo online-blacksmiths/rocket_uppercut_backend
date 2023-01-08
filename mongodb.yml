@@ -1,0 +1,11 @@
+version: "3.7"
+services:
+  mongodb:
+    image: mongo
+    container_name: mongodb_test
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${TEST_MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${TEST_MONGO_PW}
+      MONGO_INITDB_DATABASE: ${TEST_MONGO_DB_NAME}
