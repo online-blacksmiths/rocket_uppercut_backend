@@ -14,6 +14,7 @@ anyio = {extras = ["trio"], version = "*"}
 pytest = "*"
 mongomock = "*"
 gunicorn = "*"
+cryptography = "*"
 
 [dev-packages]
 python-lsp-server = {extras = ["all"], version = "*"}

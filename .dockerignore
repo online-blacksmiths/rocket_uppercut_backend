@@ -219,3 +219,6 @@ tags
 # env
 .env
 test_env.sh
+
+# tests
+tests/

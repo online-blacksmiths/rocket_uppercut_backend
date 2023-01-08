@@ -55,18 +55,8 @@ jobs:
         if: always()
         run: docker-compose -f "mongodb.yml" down
 
-      # - name: Discord Notification
-      #   uses: appleboy/discord-action@master
-      #   if: always()
-      #   with:
-      #     status: custom
-      #     fields: workflow,job,commit,repo,ref,author,took
-      #     webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
-      #     webhook_token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
-      #     color: '${{ job.status }}' === 'success' ? '#2ecc71' : '${{ job.status }}' === '#e74c3c' ? 'danger' : '#f39c12'
-      #     message: `${process.env.AS_WORKFLOW}\n${process.env.AS_JOB} (${process.env.AS_COMMIT}) of ${process.env.AS_REPO}@${process.env.AS_REF} by ${process.env.AS_AUTHOR} ${{ job.status }} in ${process.env.AS_TOOK}`
-
   build:
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -89,7 +79,7 @@ jobs:
 
       - name: Build Docker Container & Push to Docker Hub
         run: |
-          docker buildx build --push --platform linux/amd64,linux/arm64 -t ${{ secrets.DOCKERHUB_USERNAME}}/rocket_uppercut_backend:$IMAGE_TAG .
+          docker buildx build --push --platform linux/amd64 -t ${{ secrets.DOCKERHUB_USERNAME}}/rocket_uppercut_backend:$IMAGE_TAG .
         env:
           IMAGE_TAG: ${{ env.VERSION }}
 
@@ -108,14 +98,3 @@ jobs:
             source env.sh
             docker-compose pull
             docker-compose up -d
-
-      # - name: send custom message with args
-      #   uses: appleboy/discord-action@master
-      #   if: always()
-      #   with:
-      #     status: custom
-      #     fields: workflow,job,commit,repo,ref,author,took
-      #     webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
-      #     webhook_token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
-      #     color: '${{ job.status }}' === 'success' ? '#2ecc71' : '${{ job.status }}' === '#e74c3c' ? 'danger' : '#f39c12'
-      #     message: `${process.env.AS_WORKFLOW}\n${process.env.AS_JOB} (${process.env.AS_COMMIT}) of ${process.env.AS_REPO}@${process.env.AS_REF} by ${process.env.AS_AUTHOR} ${{ job.status }} in ${process.env.AS_TOOK}`
