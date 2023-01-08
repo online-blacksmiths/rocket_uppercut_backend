@@ -101,14 +101,13 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           port: ${{ secrets.SSH_PORT }}
           script: |
+            export ROCKET_VERSION=${{ env.VERSION }}
             docker login --username ${{ secrets.DOCKERHUB_USERNAME}} --password ${{ secrets.DOCKERHUB_PASSWORD }}
             cd projects/rocket-uppercut
-            sed -E -i'' "s/(.*rocket_uppercut_backend:).*/\1$VERSION/" 'docker-compose.yml'
+            sed -E -i'' "s/(.*rocket_uppercut_backend:).*/\1$ROCKET_VERSION/" 'docker-compose.yml'
             source env.sh
             docker-compose pull
             docker-compose up -d
-          env:
-            VERSION: ${{ env.VERSION }}
 
       # - name: send custom message with args
       #   uses: appleboy/discord-action@master
