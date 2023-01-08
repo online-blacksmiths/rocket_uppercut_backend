@@ -231,3 +231,6 @@ tags
 ### Customs ###
 # vim
 .vimspector.json
+
+# env
+.env

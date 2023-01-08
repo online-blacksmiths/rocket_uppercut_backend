@@ -15,4 +15,4 @@ async def index():
     '''
 
     current_time = datetime.utcnow()
-    return Response(f"Adoc API (UTC : {current_time.strftime(DATETIME_FORMAT)})")
+    return Response(f"Rocket Uppercut API 🚀 (UTC : {current_time.strftime(DATETIME_FORMAT)})")
