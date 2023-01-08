@@ -48,8 +48,8 @@ jobs:
         run: pytest
         env:
           API_ENV: test
-          TEST_MONGO_DB_URL: mongodb://unittest:unittest@localhost:27017/test_adoc?authSource=admin
-          TEST_DB_URL: mysql://root:unittest@localhost/test_adoc?charset=utf8mb4
+          TEST_MONGO_DB_URL: mongodb://unittest:unittest@localhost:27017/test_rocket_uppercut?authSource=admin
+          TEST_DB_URL: mysql://root:unittest@localhost/test_rocket_uppercut?charset=utf8mb4
 
       - name: Stop MongoDB
         if: always()
