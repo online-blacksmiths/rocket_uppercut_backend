@@ -10,6 +10,9 @@ tortoise-orm = {extras = ["asyncmy"], version = "*"}
 python-dotenv = "*"
 aerich = "*"
 mongoengine = "*"
+anyio = {extras = ["trio"], version = "*"}
+pytest = "*"
+mongomock = "*"
 
 [dev-packages]
 python-lsp-server = {extras = ["all"], version = "*"}

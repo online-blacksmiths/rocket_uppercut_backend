@@ -9,6 +9,7 @@ load_dotenv(dotenv_path=path.join(base_dir, '.env'))
 @dataclass
 class Config:
     API_ENV: str = environ.get("API_ENV", "local")
+    PORT: int = int(environ.get("PORT", 8000))
     DB_URL: str = environ.get('DB_URL')
     MONGO_DB_URL: str = environ.get('MONGO_DB_URL')
     DEBUG: bool = False
@@ -36,7 +37,7 @@ class TestConfig(Config):
     DEBUG: bool = True
     TEST_MODE: bool = True
     TEST_DB_URL: str = environ.get("TEST_DB_URL")
-    MONGO_DB_URL: str = environ.get("MONGO_DB_URL")
+    TEST_MONGO_DB_URL: str = environ.get("TEST_MONGO_DB_URL")
 
 
 def conf():

@@ -215,3 +215,7 @@ tags
 .git
 .github
 .cache
+
+# env
+.env
+test_env.sh
