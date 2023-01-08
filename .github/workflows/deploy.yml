@@ -59,6 +59,8 @@ jobs:
         uses: appleboy/discord-action@master
         if: always()
         with:
+          status: custom
+          fields: workflow,job,commit,repo,ref,author,took
           webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
           webhook_token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
           color: '${{ job.status }}' === 'success' ? '#2ecc71' : '${{ job.status }}' === '#e74c3c' ? 'danger' : '#f39c12'
@@ -112,6 +114,8 @@ jobs:
         uses: appleboy/discord-action@master
         if: always()
         with:
+          status: custom
+          fields: workflow,job,commit,repo,ref,author,took
           webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
           webhook_token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
           color: '${{ job.status }}' === 'success' ? '#2ecc71' : '${{ job.status }}' === '#e74c3c' ? 'danger' : '#f39c12'
