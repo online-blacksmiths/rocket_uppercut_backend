@@ -15,6 +15,7 @@ pytest = "*"
 mongomock = "*"
 gunicorn = "*"
 cryptography = "*"
+loguru = "*"
 
 [dev-packages]
 python-lsp-server = {extras = ["all"], version = "*"}
