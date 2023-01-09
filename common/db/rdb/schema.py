@@ -24,6 +24,9 @@ class BaseColumn:
 
 
 class Error(Model, BaseColumn):
+    '''
+    Http Status 및 에러 메시지, 코드 테이블
+    '''
     status_code = fields.IntField(index=True)
     msg = fields.CharField(max_length=300, default='')
     detail = fields.CharField(max_length=300, default='')
