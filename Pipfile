@@ -16,6 +16,9 @@ mongomock = "*"
 gunicorn = "*"
 cryptography = "*"
 loguru = "*"
+phonenumbers = "*"
+bcrypt = "*"
+pyjwt = "*"
 
 [dev-packages]
 python-lsp-server = {extras = ["all"], version = "*"}

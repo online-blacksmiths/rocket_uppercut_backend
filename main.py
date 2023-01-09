@@ -11,7 +11,8 @@ from common.config.mongodb_conn import mongodb
 
 from common.utils.middlewares import request_middleware
 
-from common.routes import index
+from common.urls import include_routers as common_routers
+from user.urls import include_routers as user_routers
 
 
 def create_app():
@@ -34,7 +35,8 @@ def create_app():
     )
 
     # Endpoint
-    app.include_router(index.router, tags=['Health Check'], deprecated=True)
+    common_routers(app)
+    user_routers(app)
 
     return app
 

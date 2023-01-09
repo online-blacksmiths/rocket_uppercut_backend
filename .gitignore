@@ -235,3 +235,4 @@ tags
 # env
 .env
 test_env.sh
+local_env.sh

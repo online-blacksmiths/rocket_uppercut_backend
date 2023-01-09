@@ -14,6 +14,11 @@ class Config:
     MONGO_DB_URL: str = environ.get('MONGO_DB_URL')
     DEBUG: bool = False
     TEST_MODE: bool = False
+    JWT_SECRET: str = environ.get('JWT_SECRET')
+    REFRESH_JWT_ALGORITHM: str = environ.get('REFRESH_JWT_ALGORITHM')
+    ACCESS_JWT_ALGORITHM: str = environ.get('ACCESS_JWT_ALGORITHM')
+    REFRESH_EXP: int = int(environ.get('REFRESH_EXP', 1209600))  # default: 14 Days
+    ACCESS_EXP: int = int(environ.get('REFRESH_EXP', 21600))  # default: 6 Hours
 
 
 @dataclass
