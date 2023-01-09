@@ -2,7 +2,7 @@ from common.config.settings import conf
 
 TORTOISE_ORM = {
     'connections': {
-        'master': conf().DB_URL
+        'master': conf().DB_URL if not conf().TEST_MODE else conf().TEST_DB_URL
     },
     'apps': {
         'models': {
