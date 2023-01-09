@@ -31,18 +31,39 @@ class SignupPhoneRequest(BaseModel):
     is_privacy_statement: bool
 
 
-@router.post('/phone', status_code=201, description='휴대전화 가입 API', response_model=SignInResponse)
+@router.post('/phone', status_code=201, summary='휴대전화 가입 API', response_model=SignInResponse)
 async def signup_phone_v1(request: Request, user_info: SignupPhoneRequest):
     '''
     # Auther
-    - Yongineer1990
+    - [Yongineer1990](https://github.com/Yongineer1990)
 
     # Description
     - 휴대전화 가입 API
 
     # Request Body
-    - phone : 국가코드 포함한 휴대폰 번호
-    -
+    - phone: string =  국가코드 포함한 휴대폰 번호
+    - password: string = 비밀번호
+        - 정규식 검사 : 8자리 이상 + 숫자 + 특수문자
+        - 유효성 검사 탈락시 422
+    - first_name: string = 성
+    - last_name: string = 이름
+    - is_terms_of_service: boolean = 이용약관 동의 여부
+    - is_privacy_statement: boolean = 개인정보취급방침 동의 여부
+
+
+    # Error
+    - 4000002 : 유효한 전화번호 아님
+    - 4000003 : 중복된 전화번호
+    - 4000004 : 모든 약관에 동의하지 않을시
+
+    # Response
+    - access_token: string = 액세스 토큰
+        - 기본 유효기간 6시간
+    - refresh_token: string = 리프레시 토큰
+        - 기존 유효기간 14일
+    - expired_date: datetime = 액세스 토큰 만료시점 (timezone : UTC)
+    - is_verified_phone: boolean = 휴대폰 인증 여부
+    - is_verified_email: boolean = 이메일 인증 여부
     '''
     phone = await valid_phone(phone=user_info.phone)
 
