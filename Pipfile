@@ -19,6 +19,7 @@ loguru = "*"
 phonenumbers = "*"
 bcrypt = "*"
 pyjwt = "*"
+httpx = "*"
 
 [dev-packages]
 python-lsp-server = {extras = ["all"], version = "*"}

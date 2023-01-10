@@ -16,7 +16,7 @@ from common.config.settings import conf
 router = APIRouter()
 
 
-@router.get('/')
+@router.get('/', summary='Index & Healthcheck')
 async def index():
     '''
     AWS Health Check

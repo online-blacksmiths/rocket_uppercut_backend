@@ -19,10 +19,20 @@ class Config:
     ACCESS_JWT_ALGORITHM: str = environ.get('ACCESS_JWT_ALGORITHM')
     REFRESH_EXP: int = int(environ.get('REFRESH_EXP', 1209600))  # default: 14 Days
     ACCESS_EXP: int = int(environ.get('REFRESH_EXP', 21600))  # default: 6 Hours
+    NCP_ACCESS_KEY: str = environ.get('NCP_ACCESS_KEY')
+    NCP_SECRET_KEY: str = environ.get('NCP_SECRET_KEY')
+    NCP_SENS_SERVICE_ID: str = environ.get('NCP_SENS_SERVICE_ID')
 
 
 @dataclass
 class LocalConfig(Config):
+    TRUSTED_HOSTS = ["*"]
+    ALLOW_SITE = ["*"]
+    DEBUG: bool = True
+
+
+@dataclass
+class DevConfig(Config):
     TRUSTED_HOSTS = ["*"]
     ALLOW_SITE = ["*"]
     DEBUG: bool = True
@@ -46,6 +56,6 @@ class TestConfig(Config):
 
 
 def conf():
-    config = dict(local=LocalConfig, prod=ProdConfig, test=TestConfig)
+    config = dict(local=LocalConfig, dev=DevConfig, prod=ProdConfig, test=TestConfig)
 
     return config[environ.get('API_ENV', 'local')]()
