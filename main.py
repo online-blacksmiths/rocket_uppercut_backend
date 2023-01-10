@@ -9,7 +9,7 @@ from common.config.settings import conf
 from common.config.rdb_conn import rdb
 from common.config.mongodb_conn import mongodb
 
-from common.utils.middlewares import request_middleware
+from common.utils.middlewares import request_middleware, access_control
 
 from common.urls import include_routers as common_routers
 from user.urls import include_routers as user_routers
@@ -24,8 +24,9 @@ def create_app():
     # MongoDB Connect
     mongodb()
 
-    # Middleware
+    # Middlewares
     app.add_middleware(middleware_class=BaseHTTPMiddleware, dispatch=request_middleware)
+    app.add_middleware(middleware_class=BaseHTTPMiddleware, dispatch=access_control)
     app.add_middleware(
         CORSMiddleware,
         allow_origins=conf().ALLOW_SITE,
@@ -34,7 +35,7 @@ def create_app():
         allow_headers=["*"]
     )
 
-    # Endpoint
+    # Endpoints
     common_routers(app)
     user_routers(app)
 

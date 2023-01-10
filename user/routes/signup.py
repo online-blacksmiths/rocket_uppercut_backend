@@ -50,7 +50,6 @@ async def signup_phone_v1(request: Request, user_info: SignupPhoneRequest):
     - is_terms_of_service: boolean = 이용약관 동의 여부
     - is_privacy_statement: boolean = 개인정보취급방침 동의 여부
 
-
     # Error
     - 4000002 : 유효한 전화번호 아님
     - 4000003 : 중복된 전화번호
@@ -60,7 +59,7 @@ async def signup_phone_v1(request: Request, user_info: SignupPhoneRequest):
     - access_token: string = 액세스 토큰
         - 기본 유효기간 6시간
     - refresh_token: string = 리프레시 토큰
-        - 기존 유효기간 14일
+        - 기본 유효기간 14일
     - expired_date: datetime = 액세스 토큰 만료시점 (timezone : UTC)
     - is_verified_phone: boolean = 휴대폰 인증 여부
     - is_verified_email: boolean = 이메일 인증 여부
