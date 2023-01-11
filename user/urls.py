@@ -1,9 +1,12 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 
-from user.routes import signup, verify, refresh
+from common.config.consts import AUTH_HEADER
+
+from user.routes import signup, verify, refresh, steps
 
 
 def include_routers(app: FastAPI):
     app.include_router(signup.router, tags=['회원가입'], prefix='/api/v1/user/signup')
     app.include_router(verify.router, tags=['인증'], prefix='/api/v1/user/verify')
+    app.include_router(steps.router, tags=['인증'], prefix='/api/v1/user/verify/step', dependencies=[Depends(AUTH_HEADER)])
     app.include_router(refresh.router, tags=['갱신'], prefix='/api/v1/user/refresh')

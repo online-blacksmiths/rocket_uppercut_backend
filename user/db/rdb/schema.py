@@ -94,3 +94,7 @@ class Step(Model, BaseColumn):
     @property
     def is_completion(self):
         return all([self.step_1, self.step_2, self.step_3])
+
+    @property
+    def to_redis(self):
+        return dict(type=self.type, step_1=int(self.step_1), step_2=int(self.step_2), step_3=int(self.step_3))

@@ -11,7 +11,8 @@ SMS_VERIFY_MSG = '[로켓 어퍼컷] 인증번호 [{verify_code}]를 입력해�
 
 LOGIN_REQUIRED_PATH_LIST = [
     '/signin_test',
-    '/api/v1/user/verify/phone'
+    '/api/v1/user/verify/phone',
+    '/api/v1/user/verify/step'
 ]
 
 LOGIN_REQUIRED_REGEX_PATH_LIST = [
