@@ -76,7 +76,7 @@ async def valid_refresh_token(refresh_token: str) -> User:
         user = await User.get_or_none(user_key = payload['user_key'])
 
         if not user:
-            e = await Error.get(code='4010003')
+            e = await Error.get(code='4040001')
             raise UserNotFound(e=e)
 
         return user

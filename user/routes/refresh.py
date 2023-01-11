@@ -19,6 +19,25 @@ class RefreshRequest(BaseModel):
 @router.post("", status_code=200, response_model=SignInResponse)
 async def refresh(request: Request, background_tasks: BackgroundTasks, token_info: RefreshRequest):
     '''
+    # Auther
+    - [Yongineer1990](https://github.com/Yongineer1990)
+
+    # Description
+    - Access Token 갱신 API
+
+    # Error
+    - 4010003 : Token Decode 에러
+    - 4010004 : Refresh Token 만료 (재로그인 필요)
+    - 4040001 : 유저를 찾을 수 없음 (재로그인 필요)
+
+    # Request Body
+    - access_token : str
+    - refresh_token : str
+
+    # Response
+    - access_token: str
+    - refresh_token: str
+    - expired_date: datetime = access_token 만료 일자
     '''
     access_token = token_info.access_token.replace("Bearer ", "")
     refresh_token = token_info.refresh_token.replace("Bearer ", "")

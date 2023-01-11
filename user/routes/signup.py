@@ -61,8 +61,6 @@ async def signup_phone_v1(request: Request, user_info: SignupPhoneRequest):
     - refresh_token: string = 리프레시 토큰
         - 기본 유효기간 14일
     - expired_date: datetime = 액세스 토큰 만료시점 (timezone : UTC)
-    - is_verified_phone: boolean = 휴대폰 인증 여부
-    - is_verified_email: boolean = 이메일 인증 여부
     '''
     phone = await valid_phone(phone=user_info.phone)
 

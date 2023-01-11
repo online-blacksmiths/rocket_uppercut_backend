@@ -27,10 +27,9 @@ def get_exp_refresh_token(user_key: str) -> str:
 def test_db_create(portal: anyio.abc.BlockingPortal):
     async def create_test_suite():
         await Error.bulk_create([
-            Error(status_code=401, code='4010001'),
             Error(status_code=401, code='4010003'),
             Error(status_code=401, code='4010004'),
-            Error(status_code=400, code='4000005')
+            Error(status_code=404, code='4040001')
         ])
 
         global user_key
@@ -103,3 +102,16 @@ def test_expired_refresh_token_fail(client):
 
     assert res.status_code == 401
     assert res.json()['code'] == '4010004'
+
+
+def test_user_not_found_fail(client):
+    res = client.post(
+        URI,
+        json=dict(
+            access_token = access_token,
+            refresh_token = get_refresh_token(user_key='invalid_user_key')
+        )
+    )
+
+    assert res.status_code == 404
+    assert res.json()['code'] == '4040001'
