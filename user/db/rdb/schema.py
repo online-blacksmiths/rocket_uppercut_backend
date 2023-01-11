@@ -1,7 +1,25 @@
+from enum import Enum
+
 from tortoise import fields
 from tortoise.models import Model
 
 from common.db.rdb.schema import BaseColumn
+
+
+class SnsTypeEnum(str, Enum):
+    PHONE = 'PHONE'
+    EMAIL = 'EMAIL'
+
+    def __str__(self):
+        return self.value
+
+
+class StepTypeEnum(str, Enum):
+    PHONE = 'PHONE'
+    EMAIL = 'EMAIL'
+
+    def __str__(self):
+        return self.value
 
 
 class User(Model, BaseColumn):
@@ -47,7 +65,7 @@ class SnsType(Model, BaseColumn):
     소셜 로그인 타입
     '''
     user = fields.ForeignKeyField('models.User', related_name='sns_type', on_delete='CASCADE')
-    type = fields.CharField(max_length=30)
+    type = fields.CharEnumField(SnsTypeEnum, max_length=30)
 
     class Meta:
         table = 'sns_types'
@@ -55,3 +73,24 @@ class SnsType(Model, BaseColumn):
 
     def __str__(self):
         return self.user.user_key
+
+
+class Step(Model, BaseColumn):
+    '''
+    인증, 프로필, 연결하기 스텝
+    '''
+    user = fields.OneToOneField('models.User', related_name='step', on_delete='CASCADE')
+    type = fields.CharEnumField(StepTypeEnum, max_length=30)
+    step_1 = fields.BooleanField(default=False)
+    step_2 = fields.BooleanField(default=False)
+    step_3 = fields.BooleanField(default=False)
+
+    class Meta:
+        table = 'steps'
+
+    def __str__(self):
+        return self.user.user_key
+
+    @property
+    def is_completion(self):
+        return all([self.step_1, self.step_2, self.step_3])
