@@ -1,6 +1,8 @@
 import anyio
 from common.db.rdb.schema import Error
 
+URI = '/api/v1/user/signup/phone'
+
 
 def test_db_create(portal: anyio.abc.BlockingPortal):
     async def create_test_suite():
@@ -15,7 +17,7 @@ def test_db_create(portal: anyio.abc.BlockingPortal):
 
 def test_signup_phone_pass(client):
     res = client.post(
-        '/api/v1/signup/phone',
+        URI,
         json={
             "phone": "+8201012341234",
             "password": "unittest1234!",
@@ -31,7 +33,7 @@ def test_signup_phone_pass(client):
 
 def test_duplicate_phone_fail(client):
     res = client.post(
-        '/api/v1/signup/phone',
+        URI,
         json={
             "phone": "+8201012341234",
             "password": "unittest1234!",
@@ -48,7 +50,7 @@ def test_duplicate_phone_fail(client):
 
 def test_phone_number_too_long_fail(client):
     res = client.post(
-        '/api/v1/signup/phone',
+        URI,
         json={
             "phone": "+82011123413542987194587198",
             "password": "unittest1234!",
@@ -65,7 +67,7 @@ def test_phone_number_too_long_fail(client):
 
 def test_invalid_phone_fail(client):
     res = client.post(
-        '/api/v1/signup/phone',
+        URI,
         json={
             "phone": "+820001234",
             "password": "unittest1234!",
@@ -82,7 +84,7 @@ def test_invalid_phone_fail(client):
 
 def test_password_regex_valid_fail(client):
     res = client.post(
-        '/api/v1/signup/phone',
+        URI,
         json={
             "phone": "+8201012351235",
             "password": "invalidpw",
@@ -98,7 +100,7 @@ def test_password_regex_valid_fail(client):
 
 def test_disagree_fail(client):
     res = client.post(
-        '/api/v1/signup/phone',
+        URI,
         json={
             "phone": "+8201038495039",
             "password": "unittest1234!",
@@ -113,7 +115,7 @@ def test_disagree_fail(client):
     assert res.json()['code'] == '4000004'
 
     res = client.post(
-        '/api/v1/signup/phone',
+        URI,
         json={
             "phone": "+8201038495039",
             "password": "unittest1234!",
@@ -128,7 +130,7 @@ def test_disagree_fail(client):
     assert res.json()['code'] == '4000004'
 
     res = client.post(
-        '/api/v1/signup/phone',
+        URI,
         json={
             "phone": "+8201038495039",
             "password": "unittest1234!",

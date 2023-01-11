@@ -9,7 +9,9 @@ from datetime import datetime, timedelta
 
 from user.db.rdb.schema import User
 
+from common.db.rdb.schema import Error
 from common.config.settings import conf
+from common.utils.excetions import TokenDecodeError, TokenExpired, UserNotFound
 
 
 class Method(Enum):
@@ -48,6 +50,48 @@ def get_access_token(user: User) -> tuple[str, datetime]:
     expired_date = payload['exp']
 
     return token, expired_date
+
+
+async def valid_access_token(access_token: str) -> None:
+    try:
+        jwt.decode(access_token, key=conf().JWT_SECRET, algorithms=[conf().ACCESS_JWT_ALGORITHM])
+        return None
+
+    except jwt.ExpiredSignatureError:
+        return None
+
+    except jwt.InvalidSignatureError:
+        e = await Error.get(code = '4010003')
+        raise TokenDecodeError(e = e)
+
+    except jwt.DecodeError:
+        e = await Error.get(code = '4010003')
+        raise TokenDecodeError(e = e)
+
+
+async def valid_refresh_token(refresh_token: str) -> User:
+    try:
+        payload = jwt.decode(refresh_token, key=conf().JWT_SECRET, algorithms=[conf().REFRESH_JWT_ALGORITHM])
+
+        user = await User.get_or_none(user_key = payload['user_key'])
+
+        if not user:
+            e = await Error.get(code='4010003')
+            raise UserNotFound(e=e)
+
+        return user
+
+    except jwt.ExpiredSignatureError:
+        e = await Error.get(code = '4010004')
+        raise TokenExpired(e = e)
+
+    except jwt.InvalidSignatureError:
+        e = await Error.get(code = '4010003')
+        raise TokenDecodeError(e = e)
+
+    except jwt.DecodeError:
+        e = await Error.get(code = '4010003')
+        raise TokenDecodeError(e = e)
 
 
 def get_ncp_signature(method: Method, url: str) -> tuple[str, str]:

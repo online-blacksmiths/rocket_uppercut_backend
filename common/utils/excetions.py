@@ -40,6 +40,13 @@ class LoginRequire(APIException):
         )
 
 
+class UserNotFound(APIException):
+    def __init__(self, e: Error, exception: Exception = None):
+        super().__init__(
+            status_code=e.status_code, msg=e.msg, detail=e.detail, code=e.code, exception=exception
+        )
+
+
 class InvalidData(APIException):
     def __init__(self, e: Error, exception: Exception = None):
         super().__init__(

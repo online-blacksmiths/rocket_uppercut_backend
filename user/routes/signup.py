@@ -102,7 +102,5 @@ async def signup_phone_v1(request: Request, user_info: SignupPhoneRequest):
     return SignInResponse(
         access_token=f'Bearer {access_token}',
         refresh_token=f'Bearer {refresh_token}',
-        expired_date=expired_date,
-        is_verified_phone=user.is_verified_phone,
-        is_verified_email=user.is_verified_email
+        expired_date=expired_date
     )

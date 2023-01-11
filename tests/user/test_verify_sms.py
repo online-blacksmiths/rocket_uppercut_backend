@@ -9,7 +9,7 @@ from common.utils.mongo_utils import get_or_none
 from common.db.mongodb.documents import TTLData, TTLTypeEnum
 from common.db.rdb.schema import Error
 
-VERIFY_PHONE_URI = '/api/v1/verify/phone'
+VERIFY_PHONE_URI = '/api/v1/user/verify/phone'
 PHONE = '+821012341234'
 
 
