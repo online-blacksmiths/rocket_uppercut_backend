@@ -1,14 +1,5 @@
-from enum import Enum
-
 from datetime import datetime
 from pydantic.main import BaseModel
-
-
-class RedisType(Enum):
-    REFRESH = 'REFRESH'
-
-    def __str__(self):
-        return self.value
 
 
 class ResponseOK(BaseModel):

@@ -5,7 +5,7 @@ from user.db.rdb.schema import StepTypeEnum
 
 class Step(HashModel):
     type: StepTypeEnum
-    step_1: bool = Field(default=False)
-    step_2: bool = Field(default=False)
-    step_3: bool = Field(default=False)
+    step_1: int = Field(default=0)
+    step_2: int = Field(default=0)
+    step_3: int = Field(default=0)
 

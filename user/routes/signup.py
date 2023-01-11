@@ -2,21 +2,26 @@ import uuid
 import bcrypt
 
 from tortoise.transactions import in_transaction
+from redis_om import NotFoundError as CacheNotFound
 
 from pydantic import constr
 from pydantic.main import BaseModel
 
-from fastapi import APIRouter
+from fastapi import APIRouter, BackgroundTasks
 from fastapi.requests import Request
 
-from user.db.rdb.schema import User, Agree, SnsType
+from user.db.rdb.schema import User, Agree, SnsType, Step, StepTypeEnum
+from user.db.redis.keys import Step as StepCache
+from common.db.rdb.schema import Error
+from common.db.redis.keys import RedisType
+
+from common.utils.excetions import SignupException
 from user.utils.validator import valid_phone
 from user.utils.token import get_refresh_token, get_access_token
 
 from common.config.consts import PASSWORD_REGEX
 from common.models import SignInResponse
-from common.db.rdb.schema import Error
-from common.utils.excetions import SignupException
+from common.tasks.redis import set_cache
 
 
 router = APIRouter()
@@ -32,7 +37,7 @@ class SignupPhoneRequest(BaseModel):
 
 
 @router.post('/phone', status_code=201, summary='휴대전화 가입 API', response_model=SignInResponse)
-async def signup_phone_v1(request: Request, user_info: SignupPhoneRequest):
+async def signup_phone_v1(request: Request, background_tasks: BackgroundTasks, user_info: SignupPhoneRequest):
     '''
     # Auther
     - [Yongineer1990](https://github.com/Yongineer1990)
@@ -95,7 +100,25 @@ async def signup_phone_v1(request: Request, user_info: SignupPhoneRequest):
             type='PHONE'
         )
 
+        await Step.create(
+            user=user,
+            type=StepTypeEnum.PHONE
+        )
+
     access_token, expired_date = get_access_token(user=user)
+
+    try:
+        StepCache.get(pk=f'{user.user_key}#{str(RedisType.STEP)}')
+
+    except CacheNotFound:
+        cache = await user.step.values('type', 'step_1', 'step_2', 'step_3')
+        background_tasks.add_task(
+            set_cache,
+            StepCache,
+            pk=f'{user.user_key}#{str(RedisType.STEP)}',
+            expired=60 * 30,
+            **cache
+        )
 
     return SignInResponse(
         access_token=f'Bearer {access_token}',

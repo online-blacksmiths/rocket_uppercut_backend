@@ -1,5 +1,9 @@
 import anyio
+
+from common.db.redis.keys import RedisType
 from common.db.rdb.schema import Error
+from user.db.rdb.schema import User
+from user.db.redis.keys import Step as StepCache
 
 URI = '/api/v1/user/signup/phone'
 
@@ -15,7 +19,7 @@ def test_db_create(portal: anyio.abc.BlockingPortal):
     portal.call(create_test_suite)
 
 
-def test_signup_phone_pass(client):
+def test_signup_phone_pass(client, portal: anyio.abc.BlockingPortal):
     res = client.post(
         URI,
         json={
@@ -29,6 +33,23 @@ def test_signup_phone_pass(client):
     )
 
     assert res.status_code == 201
+
+    async def cache_valid():
+        user = await User.get(first_name='foo', last_name='bar')
+        cache = StepCache.get(pk=f'{user.user_key}#{str(RedisType.STEP)}')
+        expired = cache.db().pttl(cache.key())
+
+        step = await user.step.values('type', 'step_1', 'step_2', 'step_3')
+
+        assert 0 < (expired / (1000 * 60)) % 60 < 30
+        assert cache.dict()['type'] == step['type']
+        assert cache.dict()['step_1'] == int(step['step_1'])
+        assert cache.dict()['step_2'] == int(step['step_2'])
+        assert cache.dict()['step_3'] == int(step['step_3'])
+
+        cache.db().flushall()
+
+    portal.call(cache_valid)
 
 
 def test_duplicate_phone_fail(client):
