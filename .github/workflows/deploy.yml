@@ -25,6 +25,9 @@ jobs:
           TEST_MONGO_PW: unittest
           TEST_MONGO_DB_NAME: test_rocket_uppercut
 
+      - name: Setup Redis
+        run: docker-compose -f 'redis.yml' up -d
+
       - name: Setup Python 3.9
         uses: actions/setup-python@v4
         with:

@@ -20,6 +20,7 @@ phonenumbers = "*"
 bcrypt = "*"
 pyjwt = "*"
 httpx = "*"
+redis-om = "*"
 
 [dev-packages]
 python-lsp-server = {extras = ["all"], version = "*"}

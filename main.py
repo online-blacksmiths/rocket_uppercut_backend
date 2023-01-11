@@ -1,5 +1,6 @@
 import uvicorn
 from dataclasses import asdict
+from redis_om import get_redis_connection
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -23,6 +24,9 @@ def create_app():
 
     # MongoDB Connect
     mongodb()
+
+    # Redis Connect
+    get_redis_connection(url=conf().REDIS_URL)
 
     # Middlewares
     app.add_middleware(middleware_class=BaseHTTPMiddleware, dispatch=request_middleware)
