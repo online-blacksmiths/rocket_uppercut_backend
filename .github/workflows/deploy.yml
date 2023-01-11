@@ -18,15 +18,12 @@ jobs:
           mysql database: 'test_rocket_uppercut'
           mysql root password: 'unittest'
 
-      - name: Setup MongoDB
-        run: docker-compose -f 'mongodb.yml' up -d
+      - name: Setup MongoDB & Redis
+        run: docker-compose -f 'services.yml' up -d
         env:
           TEST_MONGO_USER: unittest
           TEST_MONGO_PW: unittest
           TEST_MONGO_DB_NAME: test_rocket_uppercut
-
-      - name: Setup Redis
-        run: docker-compose -f 'redis.yml' up -d
 
       - name: Setup Python 3.9
         uses: actions/setup-python@v4
@@ -54,13 +51,9 @@ jobs:
           REFRESH_JWT_ALGORITHM: ${{ secrets.REFRESH_JWT_ALGORITHM }}
           ACCESS_JWT_ALGORITHM: ${{ secrets.ACCESS_JWT_ALGORITHM }}
 
-      - name: Stop MongoDB
+      - name: Stop MongoDB & Redis
         if: always()
-        run: docker-compose -f "mongodb.yml" down
-
-      - name: Stop Redis
-        if: always()
-        run: docker-compose -f "redis.yml" down
+        run: docker-compose -f "services.yml" down
 
       - name: Stop Mysql
         if: always()
