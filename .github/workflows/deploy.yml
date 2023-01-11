@@ -58,6 +58,10 @@ jobs:
         if: always()
         run: docker-compose -f "mongodb.yml" down
 
+      - name: Stop Redis
+        if: always()
+        run: docker-compose -f "redis.yml" down
+
       - name: Stop Mysql
         if: always()
         run: sudo service mysql stop
