@@ -13,12 +13,14 @@ class BaseField:
 class TTLTypeEnum(Enum):
     BLOCK = 'BLOCK'
     VERIFIED_PHONE = 'VERIFIED_PHONE'
+    VERIFIED_EMAIL = 'VERIFIED_EMAIL'
 
 
 class TTLData(BaseField, DynamicDocument):
     expired_at = fields.DateTimeField()
     ttl_type = fields.EnumField(TTLTypeEnum, required=True)
     phone = fields.StringField()
+    email = fields.EmailField()
 
     meta = {
         'collection': 'ttl_datas',

@@ -10,10 +10,12 @@ AUTH_HEADER = APIKeyHeader(name='Authorization', auto_error=False)
 NCP_SENS_SMS_URL = 'https://sens.apigw.ntruss.com/sms/v2/services/{service_id}/messages'
 NCP_OUTBOUND_MAILER_URL = 'https://mail.apigw.ntruss.com/api/v1/mails'
 SMS_VERIFY_MSG = '[로켓 어퍼컷] 인증번호 [{verify_code}]를 입력해주세요.'
+HOMEPAGE_URL = 'https://rocket-uppercut.yongineer.cf'
 
 LOGIN_REQUIRED_PATH_LIST = [
     '/signin_test',
     '/api/v1/user/verify/phone',
+    '/api/v1/user/verify/email',
     '/api/v1/user/verify/step'
 ]
 

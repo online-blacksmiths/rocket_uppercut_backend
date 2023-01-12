@@ -23,6 +23,8 @@ class Config:
     NCP_ACCESS_KEY: str = environ.get('NCP_ACCESS_KEY')
     NCP_SECRET_KEY: str = environ.get('NCP_SECRET_KEY')
     NCP_SENS_SERVICE_ID: str = environ.get('NCP_SENS_SERVICE_ID')
+    ENCRYPT_KEY: bytes = bytes(environ.get('ENCRYPT_KEY'), 'UTF-8')
+    EMAIL_VERIFY_URL: str = environ.get('EMAIL_VERIFY_URL', 'http://localhost:8000/api/v1/user/verify/email/confirm')
 
 
 @dataclass
@@ -54,6 +56,7 @@ class TestConfig(Config):
     TEST_MODE: bool = True
     TEST_DB_URL: str = environ.get("TEST_DB_URL")
     TEST_MONGO_DB_URL: str = environ.get("TEST_MONGO_DB_URL")
+    ENCRYPT_KEY: bytes = bytes('bw9YRccFBoFjGVlQUCK9HOJuUWJAwXr51y_zSBNHUJE=', 'UTF-8')
 
 
 def conf():
