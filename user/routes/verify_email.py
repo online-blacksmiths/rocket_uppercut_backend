@@ -30,7 +30,7 @@ from common.utils.exceptions import (
 router = APIRouter()
 
 
-@router.get('', summary='휴대전화 인증번호 요청 API', response_model=ResponseOK, dependencies=[Depends(AUTH_HEADER)])
+@router.get('', summary='인증 이메일 요청 API', response_model=ResponseOK, dependencies=[Depends(AUTH_HEADER)])
 async def get_verify_email_v1(request: Request, background_tasks: BackgroundTasks):
     '''
     # Auther
@@ -76,7 +76,7 @@ async def get_verify_email_v1(request: Request, background_tasks: BackgroundTask
     return ResponseOK()
 
 
-@router.get('/confirm', summary='휴대전화 인증번호 확인 API', status_code=200)
+@router.get('/confirm', summary='이메일 인증 확인 API', status_code=200)
 async def confirm_verify_email_v1(request: Request, background_tasks: BackgroundTasks, ci: str):
     '''
     # Auther
@@ -89,7 +89,6 @@ async def confirm_verify_email_v1(request: Request, background_tasks: Background
 
     # Error
     - 4040002 : Step 데이터가 없음
-    - 4040003 : 인증번호 메시지가 없음
 
     # Request Body
     - verify_code: str = 인증번호
