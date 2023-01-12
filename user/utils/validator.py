@@ -1,7 +1,7 @@
 from phonenumbers import phonenumberutil, is_valid_number, parse as phonenumber_parser
 
 from common.db.rdb.schema import Error
-from common.utils.exceptions import InvalidPhoneNumber
+from common.utils.exceptions import InvalidPhoneNumber, DuplicatedUser
 
 from user.db.rdb.schema import User
 
@@ -18,7 +18,7 @@ async def valid_phone(phone: str) -> str:
 
         if await User.filter(phone=phone).exists():
             e = await Error.get(code='4000003')
-            raise InvalidPhoneNumber(e=e)
+            raise DuplicatedUser(e=e)
 
         return phone
 

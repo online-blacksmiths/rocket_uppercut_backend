@@ -8,6 +8,7 @@ PASSWORD_REGEX = r'^(?=.*[\d])(?=.*[a-z|A-Z])(?=.*[!@#$%^&*()])[\w\d!@#$%^&*()]{
 PHONE_VERIFY_CODE_REGEX = r'^[0-9]{6}$'
 AUTH_HEADER = APIKeyHeader(name='Authorization', auto_error=False)
 NCP_SENS_SMS_URL = 'https://sens.apigw.ntruss.com/sms/v2/services/{service_id}/messages'
+NCP_OUTBOUND_MAILER_URL = 'https://mail.apigw.ntruss.com/api/v1/mails'
 SMS_VERIFY_MSG = '[로켓 어퍼컷] 인증번호 [{verify_code}]를 입력해주세요.'
 
 LOGIN_REQUIRED_PATH_LIST = [

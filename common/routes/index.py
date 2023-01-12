@@ -1,11 +1,17 @@
 import jwt
 from datetime import datetime
+import phonenumbers
+
+from pydantic import EmailStr
+
+from tortoise.expressions import Q
 
 from fastapi import APIRouter, Depends
 from fastapi.requests import Request
 from fastapi.responses import Response
 
 from user.db.rdb.schema import User
+from user.utils.validator import valid_phone
 
 from common.config.consts import DATETIME_FORMAT, AUTH_HEADER
 from common.config.settings import conf
@@ -25,8 +31,11 @@ async def index():
 
 
 @router.get('/get_token', status_code=200)
-async def get_token(user_key: str):
-    user = await User.get(user_key = user_key)
+async def get_token(user_key: str = None, email: EmailStr = None, phone: str = None):
+    if phone:
+        phone = await valid_phone(phone)
+
+    user = await User.filter(Q(user_key = user_key) | Q(email = email) | Q(phone = phone)).first()
 
     payload = dict(user_key=user.user_key)
     token = dict(Authorization=f"Bearer {create_token(payload=payload)}")
