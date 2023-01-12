@@ -23,7 +23,7 @@ class Config:
     NCP_ACCESS_KEY: str = environ.get('NCP_ACCESS_KEY')
     NCP_SECRET_KEY: str = environ.get('NCP_SECRET_KEY')
     NCP_SENS_SERVICE_ID: str = environ.get('NCP_SENS_SERVICE_ID')
-    ENCRYPT_KEY: bytes = bytes(environ.get('ENCRYPT_KEY'), 'UTF-8')
+    ENCRYPT_KEY: bytes = bytes(environ.get('ENCRYPT_KEY', 'test'), 'UTF-8')
     EMAIL_VERIFY_URL: str = environ.get('EMAIL_VERIFY_URL', 'http://localhost:8000/api/v1/user/verify/email/confirm')
 
 
