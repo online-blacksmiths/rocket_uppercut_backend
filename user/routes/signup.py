@@ -15,7 +15,7 @@ from user.db.redis.keys import Step as StepCache
 from common.db.rdb.schema import Error
 from common.db.redis.keys import RedisType
 
-from common.utils.excetions import SignupException
+from common.utils.exceptions import SignupException
 from user.utils.validator import valid_phone
 from user.utils.token import get_refresh_token, get_access_token
 
@@ -111,13 +111,13 @@ async def signup_phone_v1(request: Request, background_tasks: BackgroundTasks, u
         StepCache.get(pk=f'{user.user_key}#{str(RedisType.STEP)}')
 
     except CacheNotFound:
-        cache = await user.step.values('type', 'step_1', 'step_2', 'step_3')
+        step = await user.step
         background_tasks.add_task(
             set_cache,
             StepCache,
             pk=f'{user.user_key}#{str(RedisType.STEP)}',
             expired=60 * 30,
-            **cache
+            **step.to_redis
         )
 
     return SignInResponse(

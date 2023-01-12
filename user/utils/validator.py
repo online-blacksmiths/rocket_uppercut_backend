@@ -1,7 +1,7 @@
 from phonenumbers import phonenumberutil, is_valid_number, parse as phonenumber_parser
 
 from common.db.rdb.schema import Error
-from common.utils.excetions import InvalidPhoneNumber
+from common.utils.exceptions import InvalidPhoneNumber
 
 from user.db.rdb.schema import User
 

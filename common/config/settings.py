@@ -12,7 +12,7 @@ class Config:
     PORT: int = int(environ.get("PORT", 8000))
     DB_URL: str = environ.get('DB_URL')
     MONGO_DB_URL: str = environ.get('MONGO_DB_URL')
-    REDIS_URL: str = environ.get('REDIS_URL', 'redis://@localhost:6379')
+    REDIS_URL: str = environ.get('REDIS_OM_URL', 'redis://@localhost:6379')
     DEBUG: bool = False
     TEST_MODE: bool = False
     JWT_SECRET: str = environ.get('JWT_SECRET')

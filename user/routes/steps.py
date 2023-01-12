@@ -11,7 +11,7 @@ from user.db.rdb.schema import StepTypeEnum
 from user.db.redis.keys import Step as StepCache
 
 from common.tasks.redis import set_cache
-from common.utils.excetions import StepNotFound
+from common.utils.exceptions import StepNotFound
 
 
 router = APIRouter()

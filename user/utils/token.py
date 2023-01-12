@@ -11,7 +11,7 @@ from user.db.rdb.schema import User
 
 from common.db.rdb.schema import Error
 from common.config.settings import conf
-from common.utils.excetions import TokenDecodeError, TokenExpired, UserNotFound
+from common.utils.exceptions import TokenDecodeError, TokenExpired, UserNotFound
 
 
 class Method(Enum):

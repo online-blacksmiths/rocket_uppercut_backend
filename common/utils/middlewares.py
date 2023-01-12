@@ -13,8 +13,7 @@ from fastapi.responses import JSONResponse
 
 from user.db.rdb.schema import User
 
-from common.utils.excetions import exception_handler
-from common.utils.excetions import LoginRequire, TokenExpired, TokenDecodeError
+from common.utils.exceptions import exception_handler, LoginRequire, TokenExpired, TokenDecodeError
 from common.config.consts import LOGIN_REQUIRED_PATH_LIST, LOGIN_REQUIRED_REGEX_PATH_LIST
 from common.config.settings import conf
 from common.db.rdb.schema import Error

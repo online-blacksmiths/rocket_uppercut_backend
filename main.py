@@ -26,7 +26,7 @@ def create_app():
     mongodb()
 
     # Redis Connect
-    get_redis_connection(url=conf().REDIS_URL)
+    get_redis_connection()
 
     # Middlewares
     app.add_middleware(middleware_class=BaseHTTPMiddleware, dispatch=request_middleware)
@@ -40,8 +40,8 @@ def create_app():
     )
 
     # Endpoints
-    common_routers(app)
     user_routers(app)
+    common_routers(app)
 
     return app
 
