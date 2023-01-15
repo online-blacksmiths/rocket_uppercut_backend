@@ -33,6 +33,7 @@ class User(Model, BaseColumn):
     refresh_token = fields.TextField(default='')
     first_name = fields.CharField(max_length=30)
     last_name = fields.CharField(max_length=30)
+    profile_img_url = fields.CharField(max_length=255, default='')
     last_visit = fields.DatetimeField(null=True, default=None)
     is_delete = fields.BooleanField(default=False, index=True)
     is_verified_phone = fields.BooleanField(default=False)

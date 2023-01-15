@@ -21,6 +21,8 @@ bcrypt = "*"
 pyjwt = "*"
 httpx = "*"
 redis-om = "*"
+synology-api = "*"
+pillow = "*"
 
 [dev-packages]
 python-lsp-server = {extras = ["all"], version = "*"}

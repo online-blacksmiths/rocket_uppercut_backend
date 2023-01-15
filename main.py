@@ -14,6 +14,7 @@ from common.utils.middlewares import request_middleware, access_control
 
 from common.urls import include_routers as common_routers
 from user.urls import include_routers as user_routers
+from profile.urls import include_routers as profile_routers
 
 
 def create_app():
@@ -40,6 +41,7 @@ def create_app():
     )
 
     # Endpoints
+    profile_routers(app)
     user_routers(app)
     common_routers(app)
 

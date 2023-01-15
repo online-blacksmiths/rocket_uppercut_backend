@@ -33,6 +33,13 @@ class APIException(Exception):
         super().__init__(exception)
 
 
+class ImageUploadError(APIException):
+    def __init__(self, e: Error, exception: Exception = None):
+        super().__init__(
+            status_code=e.status_code, msg=e.msg, detail=e.detail, code=e.code, exception=exception
+        )
+
+
 class DuplicatedUser(APIException):
     def __init__(self, e: Error, exception: Exception = None):
         super().__init__(

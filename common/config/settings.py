@@ -25,6 +25,11 @@ class Config:
     NCP_SENS_SERVICE_ID: str = environ.get('NCP_SENS_SERVICE_ID')
     ENCRYPT_KEY: bytes = bytes(environ.get('ENCRYPT_KEY', 'test'), 'UTF-8')
     EMAIL_VERIFY_URL: str = environ.get('EMAIL_VERIFY_URL', 'http://localhost:8000/api/v1/user/verify/email/confirm')
+    FILE_SERVER_URL: str = environ.get('FILE_SERVER_URL', 'https://web.yongineer.cf')
+    FILE_SERVER_IP: str = environ.get('FILE_SERVER_IP')
+    FILE_SERVER_PORT: str = environ.get('FILE_SERVER_PORT')
+    FILE_SERVER_USER: str = environ.get('FILE_SERVER_USER')
+    FILE_SERVER_PW: str = environ.get('FILE_SERVER_PW')
 
 
 @dataclass
