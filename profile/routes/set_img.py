@@ -1,4 +1,5 @@
 import os
+import pathlib
 from synology_api import filestation
 
 from PIL import Image
@@ -47,6 +48,7 @@ async def upload_profile_img(request: Request, file: UploadFile):
         e = await Error.get(code='4000010')
         raise ImageUploadError(e=e)
 
+    pathlib.Path(PROFILE_TEMP_PATH).mkdir(exist_ok=True)
     file_location = f'{PROFILE_TEMP_PATH}/{user.user_key}.{extension}'
 
     with open(file_location, 'wb+') as file_obj:
