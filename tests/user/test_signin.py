@@ -1,8 +1,10 @@
 import anyio
 import uuid
 import bcrypt
+import phonenumbers
 
 from user.db.rdb.schema import User, Step, StepTypeEnum
+from user.utils.get_info import get_ip, get_country_code
 
 from common.routes.index import create_token
 from common.db.rdb.schema import Error
@@ -10,7 +12,7 @@ from common.db.rdb.schema import Error
 URI = '/api/v1/user/signin'
 
 
-def test_db_create(portal: anyio.abc.BlockingPortal):
+def test_db_create(client, portal: anyio.abc.BlockingPortal):
     async def create_test_suite():
         await Error.bulk_create([
             Error(status_code=401, code='4010005'),
@@ -20,12 +22,15 @@ def test_db_create(portal: anyio.abc.BlockingPortal):
         global user_key
         user_key = str(uuid.uuid4())
 
+        country_code = get_country_code(ip=get_ip())
+        phone = phonenumbers.parse('01012341234', country_code)
+
         global password
         password = 'unittest123!@#'
 
         user = await User.create(
             user_key = user_key,
-            phone = '+821012341234',
+            phone = f'+{phone.country_code}{phone.national_number}',
             email = 'unittest@test.com',
             password = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode(),
             first_name = 'unit',
