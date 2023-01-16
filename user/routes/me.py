@@ -6,6 +6,10 @@ from pydantic import EmailStr
 from fastapi import APIRouter
 from fastapi.requests import Request
 
+from user.utils.validator import valid_phone
+
+from common.models import ResponseOK
+
 
 router = APIRouter()
 
@@ -45,3 +49,34 @@ async def me(request: Request):
         is_verified_phone = user.is_verified_phone,
         is_verified_email = user.is_verified_email
     )
+
+
+class ChangePhoneRequest(BaseModel):
+    phone: str
+
+
+@router.put('/phone', status_code=200, summary='휴대폰 번호 변경 API', response_model=ResponseOK)
+async def change_phone(request: Request, data: ChangePhoneRequest):
+    '''
+    # Auther
+    - [Yongineer1990](https://github.com/Yongineer1990)
+
+    # Description
+    - 휴대폰 번호 변경 API
+    - 로그인 필요 (Headers.Authorization)
+
+    # Error
+    - 4000002 : 유효한 전화번호 아님
+    - 4000003 : 중복된 전화번호
+
+    # Request Body
+    - phone: str = 휴대폰 번호
+    '''
+
+    user = request.state.user
+    phone = await valid_phone(phone=data.phone)
+
+    user.phone = phone
+    await user.save()
+
+    return ResponseOK()
