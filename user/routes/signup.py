@@ -78,7 +78,7 @@ async def signup_phone_v1(request: Request, background_tasks: BackgroundTasks, u
         - 기본 유효기간 6시간
     - refresh_token: string = 리프레시 토큰
         - 기본 유효기간 14일
-    - expired_date: datetime = 액세스 토큰 만료시점 (timezone : UTC)
+    - expired_date: datetime = 액세스 토큰 만료시점 (timezone : KST)
     '''
     phone = await valid_phone(phone=user_info.phone)
 

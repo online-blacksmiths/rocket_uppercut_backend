@@ -15,6 +15,8 @@ HOMEPAGE_URL = 'https://rocket-uppercut.yongineer.cf'
 PROFILE_IMG_EXTENSIONS = ['jpg', 'jpeg', 'png', 'gif']
 PROFILE_TEMP_PATH = base_dir + '/profile/temp'
 PROFILE_IMAGE_PATH = '/web/rocket_uppercut/profile/images'
+GET_IP_URL = 'https://api.ipify.org'
+GET_NATIONAL_CODE_URL = 'https://ipinfo.io/{ip}/json'
 
 LOGIN_REQUIRED_PATH_LIST = [
     '/signin_test',
