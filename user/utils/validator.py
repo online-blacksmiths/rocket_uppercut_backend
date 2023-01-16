@@ -62,7 +62,8 @@ async def get_user_type(request: Request, ci: str) -> tuple[SnsTypeEnum, str]:
 
 def ip_validator(ip: str) -> bool:
     try:
-        if ip == '127.0.0.1':
+        PRIVATE_IP_LIST = ['10.0', '172.16', '192.168']
+        if ip == '127.0.0.1' or '.'.join(ip.split('.')[:2]) in PRIVATE_IP_LIST:
             return False
 
         ipaddress.ip_address(ip)

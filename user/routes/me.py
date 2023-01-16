@@ -99,7 +99,6 @@ async def change_phone(request: Request, data: ChangePhoneRequest, background_ta
         cache.update(type=StepTypeEnum.PHONE, step_1=0)
 
     except CacheNotFound:
-        step = await user.step
         background_tasks.add_task(
             set_cache,
             StepCache,
