@@ -23,6 +23,7 @@ LOGIN_REQUIRED_PATH_LIST = [
     '/api/v1/user/verify/phone',
     '/api/v1/user/verify/email',
     '/api/v1/user/verify/step',
+    '/api/v1/user/me',
     '/api/v1/profile/img',
 ]
 
