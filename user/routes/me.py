@@ -1,14 +1,19 @@
 from phonenumbers import format_number, parse, PhoneNumberFormat
+from redis_om import NotFoundError as CacheNotFound
 
 from pydantic.main import BaseModel
 from pydantic import EmailStr
 
-from fastapi import APIRouter
+from fastapi import APIRouter, BackgroundTasks
 from fastapi.requests import Request
 
 from user.utils.validator import valid_phone
+from user.db.rdb.schema import Step, StepTypeEnum
+from user.db.redis.keys import Step as StepCache
 
 from common.models import ResponseOK
+from common.tasks.redis import set_cache
+from common.db.redis.keys import RedisType
 
 
 router = APIRouter()
@@ -56,7 +61,7 @@ class ChangePhoneRequest(BaseModel):
 
 
 @router.put('/phone', status_code=200, summary='휴대폰 번호 변경 API', response_model=ResponseOK)
-async def change_phone(request: Request, data: ChangePhoneRequest):
+async def change_phone(request: Request, data: ChangePhoneRequest, background_tasks: BackgroundTasks):
     '''
     # Auther
     - [Yongineer1990](https://github.com/Yongineer1990)
@@ -77,6 +82,30 @@ async def change_phone(request: Request, data: ChangePhoneRequest):
     phone = await valid_phone(phone=data.phone)
 
     user.phone = phone
+    user.is_verified_phone = False
     await user.save()
+
+    step = await user.step
+
+    if not step:
+        step = await Step.create(user=user, type=StepTypeEnum.PHONE)
+
+    step.type = StepTypeEnum.PHONE
+    step.step_1 = False
+    await step.save()
+
+    try:
+        cache = StepCache.get(pk=f'{user.user_key}#{str(RedisType.STEP)}')
+        cache.update(type=StepTypeEnum.PHONE, step_1=0)
+
+    except CacheNotFound:
+        step = await user.step
+        background_tasks.add_task(
+            set_cache,
+            StepCache,
+            pk=f'{user.user_key}#{str(RedisType.STEP)}',
+            expired=60 * 30,
+            **step.to_redis
+        )
 
     return ResponseOK()
