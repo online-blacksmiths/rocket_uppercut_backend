@@ -29,7 +29,12 @@ async def request_middleware(request: Request, call_next):
     request.state.req_time = datetime.utcnow()
     request.state.start = time.time()
 
-    logger.debug(f'Request Started : {request_id}')
+    ip = request.headers['x-forwarded-for'] if 'x-forwarded-for' in request.headers.keys() else request.client.host
+    ip = request.state.ip = ip.split(',')[0] if ',' in ip else ip
+    ip = ip.split('.')
+
+    masked_ip = f'{ip[0]}.{ip[1]}.*.*' if ip and len(ip) == 4 else None
+    logger.debug(f'Request Started : {request_id} | {masked_ip}')
 
     try:
         response = await call_next(request)
@@ -51,8 +56,8 @@ async def request_middleware(request: Request, call_next):
         assert request_id_contextvar.get() == request_id
         t = time.time() - request.state.start
 
-        logger.debug(f'Request Ended : {request_id}')
-        logger.info(f'Processed Time [{request_id}] : {str(round(t * 1000, 5))}ms')
+        logger.debug(f'Request Ended : {request_id} | {masked_ip}')
+        logger.info(f'Processed Time [{request_id} | {masked_ip}] : {str(round(t * 1000, 5))}ms')
 
 
 async def access_control(request: Request, call_next):

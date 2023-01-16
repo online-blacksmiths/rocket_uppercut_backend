@@ -1,17 +1,21 @@
 import jwt
-import sys
 import hashlib
 import hmac
 import base64
 import time
 from enum import Enum
 from datetime import datetime, timedelta
+from pytz import utc, timezone
 
 from user.db.rdb.schema import User
 
 from common.db.rdb.schema import Error
 from common.config.settings import conf
+from common.config.consts import TIMEZONE
 from common.utils.exceptions import TokenDecodeError, TokenExpired, UserNotFound
+
+
+KST = timezone(TIMEZONE)
 
 
 class Method(Enum):
@@ -47,7 +51,7 @@ def get_access_token(user: User) -> tuple[str, datetime]:
     )
 
     token = jwt.encode(payload, conf().JWT_SECRET, algorithm=conf().ACCESS_JWT_ALGORITHM)
-    expired_date = payload['exp']
+    expired_date = payload['exp'].replace(tzinfo=utc).astimezone(KST)
 
     return token, expired_date
 
