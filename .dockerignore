@@ -222,3 +222,6 @@ test_env.sh
 
 # tests
 tests/
+
+# migrations
+migrations/

@@ -236,3 +236,6 @@ tags
 .env
 test_env.sh
 local_env.sh
+
+# db_upload
+db_upload/
