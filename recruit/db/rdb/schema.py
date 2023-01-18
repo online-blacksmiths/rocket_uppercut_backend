@@ -5,7 +5,7 @@ from common.db.rdb.schema import BaseColumn
 
 
 class Position(Model, BaseColumn):
-    code = fields.CharField(max_length=30, unique=True)
+    code = fields.CharField(max_length=100, unique=True)
     name = fields.CharField(max_length=100)
 
     class Meta:
@@ -16,7 +16,7 @@ class Position(Model, BaseColumn):
 
 
 class Skill(Model, BaseColumn):
-    code = fields.CharField(max_length=30, unique=True)
+    code = fields.CharField(max_length=100, unique=True)
     name = fields.CharField(max_length=200)
 
     class Meta:
@@ -27,7 +27,7 @@ class Skill(Model, BaseColumn):
 
 
 class Company(Model, BaseColumn):
-    code = fields.CharField(max_length=30, unique=True)
+    code = fields.CharField(max_length=100, unique=True)
     name = fields.CharField(max_length=100)
     website = fields.CharField(max_length=255, default='')
     address = fields.CharField(max_length=250, default='')
