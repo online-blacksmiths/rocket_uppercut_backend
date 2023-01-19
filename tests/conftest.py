@@ -2,11 +2,10 @@ import os
 import anyio.abc
 import pytest
 from typing import Generator
-from unittest.mock import MagicMock
 
 from fastapi.testclient import TestClient
 from tortoise.contrib.test import initializer, finalizer
-from mongoengine import disconnect
+from mongoengine import disconnect, QuerySet
 
 from main import create_app
 from common.config.settings import conf
@@ -54,9 +53,4 @@ def portal(client: TestClient) -> anyio.abc.BlockingPortal:
 
 @pytest.fixture(scope="function")
 def mock_search(mocker):
-    ...
-    # TODO: search Unittest
-    #  magic_mock = MagicMock()
-    #  mocker.patch("search.routes.search.search.aggregate", side_effect=magic_mock)
-    #
-    #  return magic_mock
+    return mocker.patch.object(QuerySet, 'aggregate')
