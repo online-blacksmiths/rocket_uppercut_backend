@@ -23,10 +23,12 @@ httpx = "*"
 redis-om = "*"
 synology-api = "*"
 pillow = "*"
+pytest-mock = "*"
 
 [dev-packages]
 python-lsp-server = {extras = ["all"], version = "*"}
 tortoise-cli = "*"
+debugpy = "*"
 
 [requires]
 python_version = "3.9"

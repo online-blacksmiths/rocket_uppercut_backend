@@ -2,6 +2,7 @@ import os
 import anyio.abc
 import pytest
 from typing import Generator
+from unittest.mock import MagicMock
 
 from fastapi.testclient import TestClient
 from tortoise.contrib.test import initializer, finalizer
@@ -49,3 +50,13 @@ def client() -> Generator:
 def portal(client: TestClient) -> anyio.abc.BlockingPortal:
     assert client.portal
     return client.portal
+
+
+@pytest.fixture(scope="function")
+def mock_search(mocker):
+    ...
+    # TODO: search Unittest
+    #  magic_mock = MagicMock()
+    #  mocker.patch("search.routes.search.search.aggregate", side_effect=magic_mock)
+    #
+    #  return magic_mock

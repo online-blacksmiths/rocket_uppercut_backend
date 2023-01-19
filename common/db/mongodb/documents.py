@@ -2,7 +2,7 @@ from enum import Enum
 from datetime import datetime
 
 from mongoengine import fields
-from mongoengine.document import DynamicDocument, Document
+from mongoengine.document import DynamicDocument
 
 
 class BaseField:
@@ -14,12 +14,6 @@ class TTLTypeEnum(Enum):
     BLOCK = 'BLOCK'
     VERIFIED_PHONE = 'VERIFIED_PHONE'
     VERIFIED_EMAIL = 'VERIFIED_EMAIL'
-
-
-class TotalSearchEnum(Enum):
-    SKILL = 'SKILL'
-    POSITION = 'POSITION'
-    COMPANY = 'COMPANY'
 
 
 class TTLData(BaseField, DynamicDocument):
@@ -37,9 +31,4 @@ class TTLData(BaseField, DynamicDocument):
     }
 
 
-class TotalSearch(BaseField, Document):
-    name = fields.StringField()
-    type = fields.EnumField(TotalSearchEnum)
-    code = fields.StringField()
 
-    meta = {'collection': 'total_search'}
