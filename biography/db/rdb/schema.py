@@ -31,3 +31,17 @@ class School(Model, BaseColumn):
 
     def __str__(self):
         return self.code
+
+
+class Major(Model, BaseColumn):
+    '''
+    전공 테이블
+    '''
+    title = fields.CharField(max_length=100)
+    code = fields.CharField(max_length=100, unique=True)
+
+    class Meta:
+        table = 'majors'
+
+    def __str__(self):
+        return self.code
