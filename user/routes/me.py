@@ -21,6 +21,7 @@ router = APIRouter()
 
 
 class MeResponse(BaseModel):
+    user_key: str
     phone: Optional[str] = ''
     email: Union[EmailStr, Literal[""]]
     profile_img_url: str
@@ -51,6 +52,7 @@ async def me(request: Request):
         phone = format_number(parse(user.phone), PhoneNumberFormat.INTERNATIONAL)
 
     return MeResponse(
+        user_key = user.user_key,
         phone = phone,
         email = user.email,
         profile_img_url = user.profile_img_url,
