@@ -2,6 +2,7 @@ import os
 import anyio.abc
 import pytest
 from typing import Generator
+from unittest.mock import MagicMock
 
 from fastapi.testclient import TestClient
 from tortoise.contrib.test import initializer, finalizer
@@ -54,3 +55,19 @@ def portal(client: TestClient) -> anyio.abc.BlockingPortal:
 @pytest.fixture(scope="function")
 def mock_search(mocker):
     return mocker.patch.object(QuerySet, 'aggregate')
+
+
+@pytest.fixture(scope="function")
+def mock_get_ip(mocker):
+    async_mock = MagicMock()
+    mocker.patch('user.utils.validator.get_ip', side_effect=async_mock)
+
+    return async_mock
+
+
+@pytest.fixture(scope="function")
+def mock_get_country_code(mocker):
+    async_mock = MagicMock()
+    mocker.patch('user.utils.validator.get_country_code', side_effect=async_mock)
+
+    return async_mock

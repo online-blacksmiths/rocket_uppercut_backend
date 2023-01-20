@@ -3,8 +3,7 @@ import uuid
 import bcrypt
 import phonenumbers
 
-from user.db.rdb.schema import User, Step, StepTypeEnum
-from user.utils.get_info import get_ip, get_country_code
+from user.db.rdb.schema import User, Step, StepTypeEnum, SnsTypeEnum
 
 from common.routes.index import create_token
 from common.db.rdb.schema import Error
@@ -22,7 +21,7 @@ def test_db_create(client, portal: anyio.abc.BlockingPortal):
         global user_key
         user_key = str(uuid.uuid4())
 
-        country_code = get_country_code(ip=get_ip())
+        country_code = 'KR'
         phone = phonenumbers.parse('01012341234', country_code)
 
         global password
@@ -54,7 +53,10 @@ def test_email_pass(client):
     assert res.status_code == 201
 
 
-def test_phone_pass(client):
+def test_phone_pass(client, mock_get_ip, mock_get_country_code):
+    mock_get_ip.return_value = '1.1.1.1'
+    mock_get_country_code.return_value = 'KR'
+
     res = client.post(URI, json=dict(ci='01012341234', password=password))
 
     assert res.status_code == 201
@@ -67,7 +69,10 @@ def test_invalid_email_ci_fail(client):
     assert res.json()['code'] == '4010005'
 
 
-def test_invalid_phone_ci_fail(client):
+def test_invalid_phone_ci_fail(client, mock_get_ip, mock_get_country_code):
+    mock_get_ip.return_value = '1.1.1.1'
+    mock_get_country_code.return_value = 'KR'
+
     res = client.post(URI, json=dict(ci='123412341234123412341234', password=password))
 
     assert res.status_code == 401

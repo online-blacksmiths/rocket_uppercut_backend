@@ -1,9 +1,12 @@
 import uvicorn
 from dataclasses import asdict
 from redis_om import get_redis_connection
+from redis import asyncio as aioredis
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi_cache import FastAPICache
+from fastapi_cache.backends.redis import RedisBackend
 from starlette.middleware.base import BaseHTTPMiddleware
 
 from common.config.settings import conf
@@ -29,6 +32,9 @@ def create_app():
 
     # Redis Connect
     get_redis_connection()
+
+    redis = aioredis.from_url(conf().REDIS_URL, encoding='utf8', decode_responses=True)
+    FastAPICache.init(RedisBackend(redis), prefix='fastapi-cache')
 
     # Middlewares
     app.add_middleware(middleware_class=BaseHTTPMiddleware, dispatch=request_middleware)

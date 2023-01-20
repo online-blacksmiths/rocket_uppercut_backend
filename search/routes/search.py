@@ -2,6 +2,8 @@ from pydantic.main import BaseModel
 
 from fastapi import APIRouter
 from fastapi.requests import Request
+from fastapi_cache.decorator import cache
+from fastapi_cache.coder import JsonCoder
 
 from search.db.mongodb.documents import TotalSearch, TotalSearchEnum
 
@@ -16,6 +18,7 @@ class SearchResponse(BaseModel):
 
 
 @router.get('', status_code=200, response_model=list[SearchResponse])
+@cache(namespace='search', coder=JsonCoder, expire=30)
 async def search(request: Request, type: TotalSearchEnum, limit: int = 10, query: str = ''):
     '''
     # Auther
@@ -44,11 +47,12 @@ async def search(request: Request, type: TotalSearchEnum, limit: int = 10, query
     - type: str = 데이터 타입
     '''
     pipeline = [
-        {'$search': {'compound': {'filter': [{'autocomplete': {'query': query, 'path': 'title'}}],
-                                  'must': [{'text': {'query': str(type), 'path': 'type'}}]},
-                     "highlight": {"path": "title"}}},
+        {'$search': {'compound': {
+            'should': [{'text': {'query': query, 'path': 'title'}}],
+            'must': [{'text': {'query': str(type), 'path': 'type'}}]
+        }}},
         {'$limit': limit},
-        {'$project': {'title': 1, 'code': 1, 'type': 1, 'highlights': {"$meta": "searchHighlights"}}}
+        {'$project': {'title': 1, 'code': 1, 'type': 1, 'score': {"$meta": "searchScore"}}}
     ]
 
     if type == TotalSearchEnum.ANY:

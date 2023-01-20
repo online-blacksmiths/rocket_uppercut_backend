@@ -24,6 +24,7 @@ redis-om = "*"
 synology-api = "*"
 pillow = "*"
 pytest-mock = "*"
+fastapi-cache2 = {extras = ["redis"], version = "*"}
 
 [dev-packages]
 python-lsp-server = {extras = ["all"], version = "*"}
