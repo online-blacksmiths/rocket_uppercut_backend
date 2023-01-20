@@ -2,7 +2,7 @@ from fastapi import FastAPI, Depends
 
 from common.config.consts import AUTH_HEADER
 
-from profile.routes import set_img
+from biography.routes import set_img
 
 
 def include_routers(app: FastAPI):

@@ -12,6 +12,7 @@ class TotalSearchEnum(Enum):
     COMPANY = 'COMPANY'
     PEOPLE = 'PEOPLE'
     RECRUIT = 'RECRUIT'
+    SCHOOL = 'SCHOOL'
     ANY = 'ANY'
 
     def __str__(self):

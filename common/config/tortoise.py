@@ -11,6 +11,7 @@ TORTOISE_ORM = {
                 'common.db.rdb.schema',
                 'user.db.rdb.schema',
                 'recruit.db.rdb.schema',
+                'biography.db.rdb.schema',
             ],
             'default_connection': 'master'
         }

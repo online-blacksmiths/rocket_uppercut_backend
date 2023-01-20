@@ -36,6 +36,7 @@ async def search(request: Request, type: TotalSearchEnum, limit: int = 10, query
         - COMPANY = 회사
         - PEOPLE = 사람
         - RECRUIT = 채용
+        - SCHOOL = 학교
         - ANY = 전체 검색 (단, 전체 검색에서 PEOPLE, COMPANY, RECRUIT 만 검색됨)
     - query: str = 검색어
         - default ""

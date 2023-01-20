@@ -59,15 +59,15 @@ def mock_search(mocker):
 
 @pytest.fixture(scope="function")
 def mock_get_ip(mocker):
-    async_mock = MagicMock()
-    mocker.patch('user.utils.validator.get_ip', side_effect=async_mock)
+    magic_mock = MagicMock()
+    mocker.patch('user.utils.validator.get_ip', side_effect=magic_mock)
 
-    return async_mock
+    return magic_mock
 
 
 @pytest.fixture(scope="function")
 def mock_get_country_code(mocker):
-    async_mock = MagicMock()
-    mocker.patch('user.utils.validator.get_country_code', side_effect=async_mock)
+    magic_mock = MagicMock()
+    mocker.patch('user.utils.validator.get_country_code', side_effect=magic_mock)
 
-    return async_mock
+    return magic_mock
