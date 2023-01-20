@@ -32,9 +32,6 @@ async def index():
 
 @router.get('/get_token', status_code=200)
 async def get_token(user_key: str = None, email: EmailStr = None, phone: str = None):
-    if phone:
-        phone = await valid_phone(phone)
-
     user = await User.filter(Q(user_key = user_key) | Q(email = email) | Q(phone = phone)).first()
 
     payload = dict(user_key=user.user_key)

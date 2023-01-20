@@ -1,5 +1,6 @@
 from phonenumbers import format_number, parse, PhoneNumberFormat
 from redis_om import NotFoundError as CacheNotFound
+from typing import Optional, Union, Literal
 
 from pydantic.main import BaseModel
 from pydantic import EmailStr
@@ -20,8 +21,8 @@ router = APIRouter()
 
 
 class MeResponse(BaseModel):
-    phone: str
-    email: EmailStr
+    phone: Optional[str] = ''
+    email: Union[EmailStr, Literal[""]]
     profile_img_url: str
     is_verified_phone: bool
     is_verified_email: bool
@@ -45,10 +46,12 @@ async def me(request: Request):
     - is_verified_email: boolean = 이메일 인증 여부
     '''
     user = request.state.user
-    to_international_phone = format_number(parse(user.phone), PhoneNumberFormat.INTERNATIONAL)
+    phone = ''
+    if user.phone != '':
+        phone = format_number(parse(user.phone), PhoneNumberFormat.INTERNATIONAL)
 
     return MeResponse(
-        phone = to_international_phone,
+        phone = phone,
         email = user.email,
         profile_img_url = user.profile_img_url,
         is_verified_phone = user.is_verified_phone,
