@@ -24,6 +24,8 @@ class Skill(Model, BaseColumn):
     '''
     code = fields.CharField(max_length=100, unique=True)
     title = fields.CharField(max_length=200)
+    sub_title = fields.CharField(max_length=200, default='', index=True)
+    is_initial = fields.BooleanField(default=False, index=True)
 
     class Meta:
         table = 'skills'
